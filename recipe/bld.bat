@@ -23,7 +23,7 @@ cmake -B build . -G "Ninja" ^
     -DPYTHON_LIBRARY_PATH:PATH="%PREFIX%/libs" ^
     -DPYTHON_INCLUDE_DIRS:PATH="%PREFIX%/include" ^
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON ^
-    -DCMAKE_INSTALL_PREFIX:PATH="%PREFIX%"
+    -DSITE_PACKAGES_DIR:PATH=%SP_DIR%
 
 cmake --build build --target install
 

@@ -9,6 +9,8 @@ source:
   - fn: '{{ name }}_{{ version }}.tar.gz'
     url: https://github.com/thelfer/MFrontGenericInterfaceSupport/archive/refs/tags/MFrontGenericInterfaceSupport-{{ version }}.tar.gz
     sha256: b3776d7b3a534ca626525a42b97665f7660ae2b28ea57b3f53fd7e8538da1ceb
+    patches:
+      - patches/site_packages_override_on_windows.patch  # [win]
 
 build:
   number: 0
@@ -21,9 +23,9 @@ requirements:
     - "{{ compiler('cxx') }}"
     - "{{ compiler('fortran') }}" # [not win]
     - cmake >=3.26.4
-    - autoconf # [not win]
     - ninja                       # [win]
-    - make
+    - autoconf                    # [not win]
+    - make                        # [not win]
 
   host:
     - python
@@ -44,9 +46,9 @@ test:
   commands:
     - pip check
     # Check for libMFrontGenericInterface.so library
-    - test -f $PREFIX/lib/libMFrontGenericInterface.so
-    - test -f $PREFIX/include/MGIS/Config.hxx
-    - test -f $PREFIX/share/mgis/cmake/MFrontGenericInterfaceConfig.cmake
+    - test -f $PREFIX/lib/libMFrontGenericInterface.so                      # [not win]
+    - test -f $PREFIX/include/MGIS/Config.hxx                               # [not win]
+    - test -f $PREFIX/share/mgis/cmake/MFrontGenericInterfaceConfig.cmake   # [not win]
 
 
 about:
