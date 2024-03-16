@@ -21,7 +21,7 @@ requirements:
   build:
     - "{{ compiler('c') }}"
     - "{{ compiler('cxx') }}"
-    - "{{ compiler('fortran') }}" # [not win]
+    - "{{ compiler('fortran') }}"  # [not win]
     - cmake >=3.26.4
     - ninja                       # [win]
     - autoconf                    # [not win]
@@ -31,8 +31,8 @@ requirements:
     - python
     - libboost-python-devel
     - numpy
-    - mfront 4.1.0 # [not win]
-    - mfront 4.2.0 # [win]
+    - mfront 4.1.0  # [not win]
+    - mfront 4.2.0  # [win]
 
   run:
     - mfront
