@@ -13,22 +13,24 @@ source:
 build:
   number: 0
   detect_binary_files_with_prefix: true
-  skip: true  # [py2k or osx or win or (python_impl == 'pypy')]
+  skip: true  # [py2k or osx or (python_impl == 'pypy')]
 
 requirements:
   build:
     - "{{ compiler('c') }}"
     - "{{ compiler('cxx') }}"
-    - "{{ compiler('fortran') }}"
+    - "{{ compiler('fortran') }}" # [not win]
     - cmake >=3.26.4
-    - autoconf
+    - autoconf # [not win]
+    - ninja                       # [win]
     - make
 
   host:
     - python
     - libboost-python-devel
     - numpy
-    - mfront 4.1.0
+    - mfront 4.1.0 # [not win]
+    - mfront 4.2.0 # [win]
 
   run:
     - mfront
