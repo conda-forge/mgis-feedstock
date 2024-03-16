@@ -16,6 +16,7 @@ build:
   number: 1
   detect_binary_files_with_prefix: true
   skip: true  # [py2k or osx or (python_impl == 'pypy')]
+  skip: true  # [win and py<39]
 
 requirements:
   build:
