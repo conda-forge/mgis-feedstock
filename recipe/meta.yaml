@@ -13,7 +13,7 @@ source:
       - patches/site_packages_override_on_windows.patch  # [win]
 
 build:
-  number: 1
+  number: 2
   detect_binary_files_with_prefix: true
   skip: true  # [py2k or osx or (python_impl == 'pypy')]
   skip: true  # [win and py<39]
@@ -32,8 +32,7 @@ requirements:
     - python
     - libboost-python-devel
     - numpy
-    - mfront 4.1.0  # [not win]
-    - mfront 4.2.0  # [win]
+    - mfront 4.2.0
 
   run:
     - mfront
