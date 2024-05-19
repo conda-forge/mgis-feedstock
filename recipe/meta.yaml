@@ -13,7 +13,7 @@ source:
       - patches/site_packages_override_on_windows.patch  # [win]
 
 build:
-  number: 4
+  number: 5
   detect_binary_files_with_prefix: true
   skip: true  # [py2k or osx or (python_impl == 'pypy')]
   skip: true  # [win and py<39]
@@ -21,6 +21,7 @@ build:
 requirements:
   build:
     - "{{ compiler('c') }}"
+    - {{ stdlib("c") }}
     - "{{ compiler('cxx') }}"
     - "{{ compiler('fortran') }}"  # [not win]
     - cmake >=3.26.4
