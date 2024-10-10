@@ -34,7 +34,7 @@ requirements:
     - python
     - libboost-python-devel
     - numpy
-    - mfront 4.2.0
+    - mfront
 
   run:
     - mfront
