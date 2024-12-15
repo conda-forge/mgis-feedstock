@@ -13,27 +13,24 @@ source:
       - patches/site_packages_override_on_windows.patch  # [win]
 
 build:
-  number: 7
+  number: 8
   detect_binary_files_with_prefix: true
-  skip: true  # [py2k or osx or (python_impl == 'pypy')]
-  skip: true  # [win and py<39]
+  skip: true  # [osx]
 
 requirements:
   build:
     - "{{ compiler('c') }}"
     - {{ stdlib("c") }}
     - "{{ compiler('cxx') }}"
-    - "{{ compiler('fortran') }}"  # [not win]
+    - "{{ compiler('fortran') }}"
     - cmake >=3.26.4
     - ninja                       # [win]
-    - flang                       # [win]
     - autoconf                    # [not win]
     - make                        # [not win]
 
   host:
     - python
     - libboost-python-devel
-    - numpy
     - mfront
 
   run:
