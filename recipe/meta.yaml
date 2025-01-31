@@ -15,7 +15,6 @@ source:
 build:
   number: 0
   detect_binary_files_with_prefix: true
-  skip: true  # [osx]
   run_exports:
     - {{ pin_subpackage('mgis', max_pin='x.x.x') }}
 
@@ -25,18 +24,17 @@ requirements:
     - {{ stdlib("c") }}
     - {{ compiler('cxx') }}
     - {{ compiler('fortran') }}
+    - python                                 # [build_platform != target_platform]
+    - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - cmake >=3.26.4
     - ninja                       # [win]
     - autoconf                    # [not win]
     - make                        # [not win]
-
   host:
     - python
     - libboost-python-devel
     - mfront
-
   run:
-    - mfront
     - python
 
 test:
