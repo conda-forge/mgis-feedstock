@@ -26,12 +26,14 @@ requirements:
     - {{ compiler('fortran') }}
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
+    - numpy                                  # [build_platform != target_platform]
     - cmake >=3.26.4
     - ninja                       # [win]
     - autoconf                    # [not win]
     - make                        # [not win]
   host:
     - python
+    - numpy
     - libboost-python-devel
     - mfront
   run:
