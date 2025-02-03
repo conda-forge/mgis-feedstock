@@ -33,7 +33,7 @@ requirements:
     - make                        # [not win]
   host:
     - python
-    - numpy
+    - numpy <2
     - libboost-python-devel
     - mfront
   run:
