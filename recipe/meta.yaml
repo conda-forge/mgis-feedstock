@@ -11,6 +11,7 @@ source:
     sha256: dae915201fd20848b69745dabda1a334eb242d823af600825b8b010ddc597640
     patches:
       - patches/site_packages_override_on_windows.patch  # [win]
+      - patches/do_not_call_wrapinitnumpy.patch          # [osx]
 
 build:
   number: 1
