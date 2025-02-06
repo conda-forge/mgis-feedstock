@@ -18,7 +18,7 @@ cmake .. \
     -DPYTHONLIBS_VERSION_STRING="${CONDA_PY}" \
     -DPython_ADDITIONAL_VERSIONS="${python_version}" \
     -DPYTHON_EXECUTABLE:FILEPATH="${PREFIX}/bin/python" \
-    -DPYTHON_LIBRARY:FILEPATH="${PREFIX}/lib/libpython${python_version}.so" \
+    -DPYTHON_LIBRARY:FILEPATH="${PREFIX}/lib/libpython${PY_VER}${SHLIB_EXT}" \
     -DPYTHON_LIBRARY_PATH:PATH="${PREFIX}/lib" \
     -DPYTHON_INCLUDE_DIRS:PATH="${PREFIX}/include" \
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON \

@@ -1,0 +1,19 @@
+Subject: [PATCH] do not call wrapinitnumpy
+---
+Index: bindings/python/src/NumPySupport.cxx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bindings/python/src/NumPySupport.cxx b/bindings/python/src/NumPySupport.cxx
+--- a/bindings/python/src/NumPySupport.cxx	(revision b209b69c64bdb35bae269261041e964cc6cfcc64)
++++ b/bindings/python/src/NumPySupport.cxx	(date 1738828454455)
+@@ -27,7 +27,7 @@
+   }
+ #endif
+ 
+-  void initializeNumPy() { wrapInitializeNumPy(); }  // end of initializeNumPy
++  void initializeNumPy() { }  // end of initializeNumPy
+ 
+   boost::python::object wrapInNumPyArray(std::span<double>& v) {
+     npy_intp dims[1] = {static_cast<npy_intp>(v.size())};
