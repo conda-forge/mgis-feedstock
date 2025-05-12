@@ -1,5 +1,5 @@
 {% set name = "mgis" %}
-{% set version = "3.0" %}
+{% set version = "3.0.1" %}
 
 package:
   name: '{{ name|lower }}'
@@ -8,7 +8,7 @@ package:
 source:
   - fn: '{{ name }}_{{ version }}.tar.gz'
     url: https://github.com/thelfer/MFrontGenericInterfaceSupport/archive/refs/tags/MFrontGenericInterfaceSupport-{{ version }}.tar.gz
-    sha256: dae915201fd20848b69745dabda1a334eb242d823af600825b8b010ddc597640
+    sha256: fb9a7f5008a43c70bdb1c4b80f32f7fd3e4274c912b93c36af7011d3c4f93039
     patches:
       - patches/site_packages_override_on_windows.patch  # [win]
 
