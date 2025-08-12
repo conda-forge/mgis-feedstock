@@ -10,6 +10,7 @@ set FC=flang-new
 cmake -B build . -G "Ninja" ^
     %CMAKE_ARGS% ^
     -DCMAKE_BUILD_TYPE=%build_type% ^
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ^
     -Denable-c-bindings=ON ^
     -Denable-fortran-bindings=ON ^
     -Denable-python-bindings=ON ^
