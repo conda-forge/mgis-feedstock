@@ -8,6 +8,7 @@ python_version="${CONDA_PY:0:1}.${CONDA_PY:1:2}"
 
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -Denable-c-bindings=OFF \
     -Denable-fortran-bindings=OFF \
     -Denable-python-bindings=ON \
