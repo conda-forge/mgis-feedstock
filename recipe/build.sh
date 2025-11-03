@@ -1,10 +1,5 @@
 #!/bin/bash
-
-mkdir build
-cd build
-
-export TFELHOME="${PREFIX}"
-python_version="${CONDA_PY:0:1}.${CONDA_PY:1:2}"
+set -euo pipefail
 
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
@@ -25,5 +20,5 @@ cmake .. \
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON \
     ${CMAKE_ARGS}
 
-make -j$CPU_COUNT 
+make -j$CPU_COUNT
 make install

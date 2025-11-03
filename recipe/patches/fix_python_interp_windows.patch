@@ -1,0 +1,27 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1234567..abcdefg 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -48,6 +48,8 @@ endif(enable-pybind11)
+ if(enable-python-bindings)
+   find_package(Python REQUIRED COMPONENTS Interpreter Development NumPy)
+   set(HAVE_PYTHON ON)
++  # Set PYTHONLIBS_VERSION_STRING from Python_VERSION to avoid empty string issues
++  set(PYTHONLIBS_VERSION_STRING "${Python_VERSION}")
+   get_filename_component(PYTHON_LIBRARY_PATH ${Python_LIBRARIES} PATH)
+   get_filename_component(PYTHON_LIBRARY_FULL ${Python_LIBRARIES} NAME)
+   string(REGEX REPLACE "lib(.+)\\.(.+)$" "\\1" PYTHON_LIBRARY ${PYTHON_LIBRARY_FULL})
+@@ -55,8 +57,10 @@ if(enable-python-bindings)
+   message(STATUS "python include path   ${Python_INCLUDE_DIRS}")
+   message(STATUS "python libraries path ${PYTHON_LIBRARY_PATH}")
+   message(STATUS "python library        ${PYTHON_LIBRARY}")
+-  string(REGEX REPLACE "[-a-z+]+.*$" "" PYTHONLIBS_VERSION_CLEANED "${PYTHONLIBS_VERSION_STRING}")
+-  find_package(PythonInterp ${PYTHONLIBS_VERSION_CLEANED} REQUIRED)
++  # Skip FindPythonInterp - use Python_EXECUTABLE from FindPython instead
++  # (FindPythonInterp has bugs with empty version strings on Windows)
++  set(PYTHON_EXECUTABLE "${Python_EXECUTABLE}")
++  set(PYTHONINTERP_FOUND TRUE)
+   message(STATUS "python interpreter    ${PYTHON_EXECUTABLE}")
+   if(NOT HAVE_PYTHON)
+     message(FATAL_ERROR "python not found. python is mandatory for python bindings.")
+

@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal ENABLEDELAYEDEXPANSION
 
 set CLICOLOR_FORCE=1
 
@@ -7,7 +7,12 @@ rem Set TFELHOME to the PREFIX environment variable
 set TFELHOME=%PREFIX%
 set FC=flang-new
 
-cmake -B build . -G "Ninja" ^
+rem Prepare build dir at %RB_SRC_DIR%\build to satisfy rattler-build expectations
+set "BUILD_DIR=%RB_SRC_DIR%\build"
+if not exist "%BUILD_DIR%" mkdir "%BUILD_DIR%"
+rem ------------------------------------------------------------
+
+cmake -B "%BUILD_DIR%" -G "Ninja" ^
     %CMAKE_ARGS% ^
     -DCMAKE_BUILD_TYPE=%build_type% ^
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 ^
@@ -24,10 +29,28 @@ cmake -B build . -G "Ninja" ^
     -DPYTHON_LIBRARY:FILEPATH=%PREFIX%\libs\python%CONDA_PY%.lib ^
     -DPYTHON_LIBRARY_PATH:PATH="%PREFIX%/libs" ^
     -DPYTHON_INCLUDE_DIRS:PATH="%PREFIX%/include" ^
+    -DPYTHON_INCLUDE_DIR:PATH="%PREFIX%/include" ^
+    -DPython_ROOT_DIR:PATH="%PREFIX%" ^
+    -DPython_FIND_STRATEGY=LOCATION ^
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON ^
     -DSITE_PACKAGES_DIR:PATH=%SP_DIR%
 
-cmake --build build --target install
+if errorlevel 1 (
+    echo CMake configuration failed!
+    if exist "%BUILD_DIR%\CMakeFiles\CMakeError.log" (
+        echo --- CMakeError.log ---
+        type "%BUILD_DIR%\CMakeFiles\CMakeError.log"
+        echo --- end CMakeError.log ---
+    )
+    if exist "%BUILD_DIR%\CMakeFiles\CMakeOutput.log" (
+        echo --- CMakeOutput.log ---
+        type "%BUILD_DIR%\CMakeFiles\CMakeOutput.log"
+        echo --- end CMakeOutput.log ---
+    )
+    exit /b 1
+)
+
+cmake --build "%BUILD_DIR%" --target install
 
 IF ERRORLEVEL 1 (
   type configure.log
