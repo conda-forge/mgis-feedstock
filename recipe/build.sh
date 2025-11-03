@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+# Clean PY_VER by removing dots (e.g., 3.12 -> 312) for library paths
+PY_VER_CLEAN=${PY_VER//./}
+
 cmake .. \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
@@ -11,7 +14,7 @@ cmake .. \
     -Denable-julia-bindings=OFF \
     -Denable-website=OFF \
     -Denable-broken-boost-python-module-visibility-handling=ON \
-    -DPYTHONLIBS_VERSION_STRING="${CONDA_PY}" \
+    -DPYTHONLIBS_VERSION_STRING="${PY_VER}" \
     -DPython_ADDITIONAL_VERSIONS="${python_version}" \
     -DPYTHON_EXECUTABLE:FILEPATH="${PREFIX}/bin/python" \
     -DPYTHON_LIBRARY:FILEPATH="${PREFIX}/lib/libpython${python_version}.so" \

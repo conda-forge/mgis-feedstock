@@ -43,7 +43,6 @@ requirements:
     - libboost-python-devel
     - mfront
   run:
-    - mfront
     - python
   run_exports:
     - ${{ pin_subpackage('mgis', upper_bound='x.x.x') }}
