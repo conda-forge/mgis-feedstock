@@ -12,10 +12,11 @@ source:
   - url: https://github.com/thelfer/MFrontGenericInterfaceSupport/archive/refs/tags/MFrontGenericInterfaceSupport-${{ version }}.tar.gz
     sha256: fb9a7f5008a43c70bdb1c4b80f32f7fd3e4274c912b93c36af7011d3c4f93039
     patches:
-      patches/fix_python_interp_windows.patch
+      - patches/fix_python_interp_windows.patch
+      - patches/site_packages_override_on_windows.patch
 
 build:
-  number: 3
+  number: 0
   skip: osx
   prefix_detection:
     ignore_binary_files: true

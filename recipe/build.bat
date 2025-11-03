@@ -7,9 +7,16 @@ rem Set TFELHOME to the PREFIX environment variable
 set TFELHOME=%PREFIX%
 set FC=flang-new
 
-rem Prepare build dir at %RB_SRC_DIR%\build to satisfy rattler-build expectations
+rem Normalize SP_DIR to forward slashes for CMake
+set "SP_DIR_FWD=%SP_DIR:\=/%"
+
+rem Prepare a clean build dir at %RB_SRC_DIR%\build to avoid CMake cache/source mismatches
 set "BUILD_DIR=%RB_SRC_DIR%\build"
-if not exist "%BUILD_DIR%" mkdir "%BUILD_DIR%"
+if exist "%BUILD_DIR%" (
+  echo Removing existing build directory to avoid stale CMake cache: "%BUILD_DIR%"
+  rmdir /s /q "%BUILD_DIR%"
+)
+mkdir "%BUILD_DIR%"
 rem ------------------------------------------------------------
 
 cmake -B "%BUILD_DIR%" -G "Ninja" ^
@@ -33,7 +40,9 @@ cmake -B "%BUILD_DIR%" -G "Ninja" ^
     -DPython_ROOT_DIR:PATH="%PREFIX%" ^
     -DPython_FIND_STRATEGY=LOCATION ^
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON ^
-    -DSITE_PACKAGES_DIR:PATH=%SP_DIR%
+    -DMGIS_APPEND_SUFFIX=OFF ^
+    -DMGIS_PYTHON_MODULES_INSTALL_DIRECTORY:PATH="%SP_DIR_FWD%/mgis" ^
+    -DSITE_PACKAGES_DIR:PATH="%SP_DIR_FWD%"
 
 if errorlevel 1 (
     echo CMake configuration failed!
