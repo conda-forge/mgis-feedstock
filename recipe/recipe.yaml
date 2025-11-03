@@ -1,0 +1,79 @@
+schema_version: 1
+
+context:
+  name: mgis
+  version: 3.0
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: https://github.com/thelfer/MFrontGenericInterfaceSupport/archive/refs/tags/MFrontGenericInterfaceSupport-${{ version }}.tar.gz
+    sha256: dae915201fd20848b69745dabda1a334eb242d823af600825b8b010ddc597640
+    file_name: ${{ name }}_${{ version }}.tar.gz
+    patches:
+      - if: win
+        then: patches/site_packages_override_on_windows.patch
+
+build:
+  number: 3
+  skip: osx
+  prefix_detection:
+    ignore_binary_files: true
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('fortran') }}
+    - cmake >=3.26.4
+    - if: win
+      then: ninja
+    - if: not win
+      then: autoconf
+    - if: not win
+      then: make
+  host:
+    - python
+    - libboost-python-devel
+    - mfront
+  run:
+    - mfront
+    - python
+  run_exports:
+    - ${{ pin_subpackage('mgis', upper_bound='x.x.x') }}
+
+tests:
+  - python:
+      imports:
+        - mgis
+  - requirements:
+      run:
+        - pip
+    script:
+      - pip check
+      - if: not win
+        then: test -f $PREFIX/lib/libMFrontGenericInterface.so
+      - if: not win
+        then: test -f $PREFIX/include/MGIS/Config.hxx
+      - if: not win
+        then: test -f $PREFIX/share/mgis/cmake/MFrontGenericInterfaceConfig.cmake
+
+about:
+  license: LGPL-3.0-or-later and CECILL-C
+  license_file:
+    - LGPL-3.0.txt
+    - CeCILL-C_V1-en.txt
+    - CeCILL-C_V1-fr.txt
+  summary: MGIS - MFrontGenericInterfaceSupport
+  description: |
+    This project aims at proving tools (functions, classes, bindings, etc…) to handle behaviours written using MFront generic interface
+  homepage: https://thelfer.github.io/mgis/web/index.html
+  documentation: https://github.com/thelfer/MFrontGenericInterfaceSupport
+
+extra:
+  recipe-maintainers:
+    - Krande
+    - ldallolio
