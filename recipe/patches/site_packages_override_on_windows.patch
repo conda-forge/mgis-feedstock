@@ -1,27 +1,5 @@
 Subject: [PATCH] site packages override on windows
 ---
-Index: CMakeLists.txt
-IDEA additional info:
-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
-<+>UTF-8
-===================================================================
-diff --git a/CMakeLists.txt b/CMakeLists.txt
---- a/CMakeLists.txt	(revision 12b4e3217d0b1bac7949a5c1d3b834cd134d883d)
-+++ b/CMakeLists.txt	(date 1710603826489)
-@@ -31,6 +31,13 @@
- option(enable-broken-boost-python-module-visibility-handling
-   "workaround a bug in boost python which occurs on FreeBSD+clang. See https://github.com/boostorg/python/issues/173 for details" OFF)
- 
-+if(SITE_PACKAGES_DIR)
-+  message(STATUS "site-packages directory : ${SITE_PACKAGES_DIR}")
-+else ()
-+  set(SITE_PACKAGES_DIR "bin/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages")
-+  message(STATUS "site-packages directory : ${SITE_PACKAGES_DIR}")
-+endif(SITE_PACKAGES_DIR)
-+
- if(enable-python-bindings)
-   find_package(PythonLibs REQUIRED)
-   set(HAVE_PYTHON ON)
 Index: bindings/python/CMakeLists.txt
 IDEA additional info:
 Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
@@ -30,21 +8,31 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 diff --git a/bindings/python/CMakeLists.txt b/bindings/python/CMakeLists.txt
 --- a/bindings/python/CMakeLists.txt	(revision 12b4e3217d0b1bac7949a5c1d3b834cd134d883d)
 +++ b/bindings/python/CMakeLists.txt	(date 1710603826496)
-@@ -2,7 +2,7 @@
- if(MGIS_APPEND_SUFFIX)
-   if(WIN32)
-     set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
--        bin/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/mgis_${MGIS_SUFFIX_FOR_PYTHON_MODULES})
-+        ${SITE_PACKAGES_DIR}/mgis_${MGIS_SUFFIX_FOR_PYTHON_MODULES})
-   else(WIN32)
-     set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
-         "lib${LIB_SUFFIX}/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/mgis_${MGIS_SUFFIX_FOR_PYTHON_MODULES}")
-@@ -10,7 +10,7 @@
- else(MGIS_APPEND_SUFFIX)
-   if(WIN32)
-     set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
--        "bin/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/mgis")
-+        "${SITE_PACKAGES_DIR}/mgis")
-   else(WIN32)
-     set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
-         "lib${LIB_SUFFIX}/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/mgis")
+@@ -1,18 +1,10 @@
+ # store the location of the python modules in the MGIS_PYTHON_MODULES_INSTALL_DIRECTORY variable
+-if(MGIS_APPEND_SUFFIX)
+-  if(WIN32)
+-    set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
+-        bin/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/mgis_${MGIS_SUFFIX_FOR_PYTHON_MODULES})
+-  else(WIN32)
+-    set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
+-        "lib${LIB_SUFFIX}/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/mgis_${MGIS_SUFFIX_FOR_PYTHON_MODULES}")
+-  endif(WIN32)
+-else(MGIS_APPEND_SUFFIX)
+-  if(WIN32)
+-    set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
+-        "bin/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/mgis")
+-  else(WIN32)
+-    set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
+-        "lib${LIB_SUFFIX}/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/mgis")
+-  endif(WIN32)
+-endif(MGIS_APPEND_SUFFIX)
++if(NOT MGIS_PYTHON_MODULES_INSTALL_DIRECTORY)
++  if(MGIS_APPEND_SUFFIX)
++    set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
++        "lib${LIB_SUFFIX}/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/mgis_${MGIS_SUFFIX_FOR_PYTHON_MODULES}")
++  else(MGIS_APPEND_SUFFIX)
++    set(MGIS_PYTHON_MODULES_INSTALL_DIRECTORY
++        "lib${LIB_SUFFIX}/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/mgis")
++  endif(MGIS_APPEND_SUFFIX)
++endif()

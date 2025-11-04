@@ -1,0 +1,92 @@
+schema_version: 1
+
+context:
+  name: mgis
+  version: 3.0.1
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: https://github.com/thelfer/MFrontGenericInterfaceSupport/archive/refs/tags/MFrontGenericInterfaceSupport-${{ version }}.tar.gz
+    sha256: fb9a7f5008a43c70bdb1c4b80f32f7fd3e4274c912b93c36af7011d3c4f93039
+    patches:
+      - patches/fix_python_interp_windows.patch
+      - patches/site_packages_override_on_windows.patch
+
+build:
+  number: 0
+#  skip: osx
+  prefix_detection:
+    ignore_binary_files: true
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ stdlib("c") }}
+    - ${{ compiler('cxx') }}
+    - ${{ compiler('fortran') }}
+    - cmake >=3.26.4
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
+        - mfront
+    - if: win
+      then:
+        - ninja
+        - m2-tar
+        - m2-gzip
+        - m2-patch
+    - if: not win
+      then:
+        - autoconf
+        - make
+  host:
+    - python
+    - numpy
+    - libboost-python-devel
+    - mfront
+  run:
+    - python
+  run_exports:
+    - ${{ pin_subpackage('mgis', upper_bound='x.x.x') }}
+
+tests:
+  - python:
+      imports:
+        - mgis
+  - requirements:
+      run:
+        - pip
+    script:
+      - pip check
+      - if: linux
+        then:
+          - test -f $PREFIX/lib/libMFrontGenericInterface.so
+      - if: osx
+        then:
+          - test -f $PREFIX/lib/libMFrontGenericInterface.dylib
+      - if: not win
+        then:
+          - test -f $PREFIX/include/MGIS/Config.hxx
+          - test -f $PREFIX/share/mgis/cmake/MFrontGenericInterfaceConfig.cmake
+
+about:
+  license: LGPL-3.0-or-later AND CECILL-C
+  license_file:
+    - LGPL-3.0.txt
+    - CeCILL-C_V1-en.txt
+    - CeCILL-C_V1-fr.txt
+  summary: MGIS - MFrontGenericInterfaceSupport
+  description: |
+    This project aims at proving tools (functions, classes, bindings, etc…) to handle behaviours written using MFront generic interface
+  homepage: https://thelfer.github.io/mgis/web/index.html
+  documentation: https://github.com/thelfer/MFrontGenericInterfaceSupport
+
+extra:
+  recipe-maintainers:
+    - Krande
+    - ldallolio
