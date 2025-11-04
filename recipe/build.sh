@@ -15,12 +15,12 @@ cmake ${SRC_DIR} \
     -Denable-website=OFF \
     -Denable-broken-boost-python-module-visibility-handling=ON \
     -DPYTHONLIBS_VERSION_STRING="${PY_VER}" \
-    -DPython_ADDITIONAL_VERSIONS="${PY_VER}" \
-    -DPYTHON_EXECUTABLE:FILEPATH="${PREFIX}/bin/python" \
-    -DPYTHON_LIBRARY:FILEPATH="${PREFIX}/lib/libpython${PY_VER}.so" \
-    -DPYTHON_LIBRARY_PATH:PATH="${PREFIX}/lib" \
-    -DPYTHON_INCLUDE_DIRS:PATH="${PREFIX}/include" \
+    -DPython_ROOT_DIR:PATH="${PREFIX}" \
+    -DPython_FIND_STRATEGY=LOCATION \
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON \
+    -DMGIS_APPEND_SUFFIX=OFF \
+    -DMGIS_PYTHON_MODULES_INSTALL_DIRECTORY:PATH="${SP_DIR}/mgis" \
+    -DSITE_PACKAGES_DIR:PATH="${SP_DIR}" \
     ${CMAKE_ARGS}
 
 make -j$CPU_COUNT
