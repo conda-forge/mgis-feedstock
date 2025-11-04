@@ -28,6 +28,11 @@ requirements:
     - ${{ compiler('cxx') }}
     - ${{ compiler('fortran') }}
     - cmake >=3.26.4
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+        - numpy
     - if: win
       then:
         - ninja
@@ -40,6 +45,7 @@ requirements:
         - make
   host:
     - python
+    - numpy
     - libboost-python-devel
     - mfront
   run:
