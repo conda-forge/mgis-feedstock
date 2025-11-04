@@ -56,9 +56,14 @@ tests:
         - pip
     script:
       - pip check
-      - if: not win
+      - if: linux
         then:
           - test -f $PREFIX/lib/libMFrontGenericInterface.so
+      - if: osx
+        then:
+          - test -f $PREFIX/lib/libMFrontGenericInterface.dylib
+      - if: not win
+        then:
           - test -f $PREFIX/include/MGIS/Config.hxx
           - test -f $PREFIX/share/mgis/cmake/MFrontGenericInterfaceConfig.cmake
 
