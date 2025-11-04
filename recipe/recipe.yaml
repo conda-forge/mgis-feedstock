@@ -33,6 +33,7 @@ requirements:
         - python
         - cross-python_${{ target_platform }}
         - numpy
+        - mfront
     - if: win
       then:
         - ninja
