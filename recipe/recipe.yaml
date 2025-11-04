@@ -17,7 +17,7 @@ source:
 
 build:
   number: 0
-  skip: osx
+#  skip: osx
   prefix_detection:
     ignore_binary_files: true
 
