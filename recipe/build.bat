@@ -1,13 +1,14 @@
 @echo off
 setlocal ENABLEDELAYEDEXPANSION
 
-set CLICOLOR_FORCE=1
-
 rem Clean PY_VER by removing dots (e.g., 3.12 -> 312) for library paths
 set "PY_VER_CLEAN=%PY_VER:.=%"
 
 rem Set TFELHOME to the PREFIX environment variable
 set TFELHOME=%PREFIX%
+set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;%TFELHOME%\Library\share\tfel\cmake
+echo "TFELTESTS_DIR=%TFELTests_DIR%
+
 set FC=flang-new
 
 rem Normalize SP_DIR to forward slashes for CMake

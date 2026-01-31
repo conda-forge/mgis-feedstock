@@ -12,12 +12,10 @@ source:
   - url: https://github.com/thelfer/MFrontGenericInterfaceSupport/archive/refs/tags/MFrontGenericInterfaceSupport-${{ version }}.tar.gz
     sha256: 61afae1a367dbb150b24ca85f042efb15a77184a54a746f11c08d9b7cb9e94f3
     patches:
-      - patches/fix_python_interp_windows.patch
       - patches/site_packages_override_on_windows.patch
 
 build:
   number: 0
-#  skip: osx
   prefix_detection:
     ignore_binary_files: true
 
@@ -34,6 +32,7 @@ requirements:
         - cross-python_${{ target_platform }}
         - numpy
         - mfront
+        - pybind11
     - if: win
       then:
         - ninja
@@ -46,7 +45,8 @@ requirements:
   host:
     - python
     - numpy
-    - libboost-python-devel
+    - pybind11
+    - pybind11-abi
     - mfront
   run:
     - python

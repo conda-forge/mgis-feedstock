@@ -4,6 +4,8 @@ set -euo pipefail
 mkdir build
 cd build
 
+export CMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH} ${PREFIX}/share/tfel/cmake"
+
 cmake ${SRC_DIR} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
