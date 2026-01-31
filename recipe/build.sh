@@ -15,6 +15,7 @@ cmake ${SRC_DIR} \
     -Denable-portable-build=ON \
     -Denable-julia-bindings=OFF \
     -Denable-website=OFF \
+    -Denable-parallel-stl-algorithms=OFF \
     -Denable-broken-boost-python-module-visibility-handling=ON \
     -DPYTHONLIBS_VERSION_STRING="${PY_VER}" \
     -DPython_ROOT_DIR:PATH="${PREFIX}" \
