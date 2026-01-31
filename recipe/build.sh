@@ -4,10 +4,11 @@ set -euo pipefail
 mkdir build
 cd build
 
-export CMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH} ${PREFIX}/share/tfel/cmake"
-
+echo "tfel_cmake: ${PREFIX}/share/tfel/cmake"
 cmake ${SRC_DIR} \
+    ${CMAKE_ARGS} \
     -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_PREFIX_PATH="${PREFIX}/share/tfel/cmake" \
     -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     -Denable-c-bindings=OFF \
     -Denable-fortran-bindings=OFF \
@@ -25,8 +26,7 @@ cmake ${SRC_DIR} \
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON \
     -DMGIS_APPEND_SUFFIX=OFF \
     -DMGIS_PYTHON_MODULES_INSTALL_DIRECTORY:PATH="${SP_DIR}/mgis" \
-    -DSITE_PACKAGES_DIR:PATH="${SP_DIR}" \
-    ${CMAKE_ARGS}
+    -DSITE_PACKAGES_DIR:PATH="${SP_DIR}"
 
 make -j$CPU_COUNT
 make install
