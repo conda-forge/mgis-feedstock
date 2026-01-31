@@ -1,13 +1,14 @@
 @echo off
 setlocal ENABLEDELAYEDEXPANSION
 
-set CLICOLOR_FORCE=1
-
 rem Clean PY_VER by removing dots (e.g., 3.12 -> 312) for library paths
 set "PY_VER_CLEAN=%PY_VER:.=%"
 
 rem Set TFELHOME to the PREFIX environment variable
 set TFELHOME=%PREFIX%
+set CMAKE_PREFIX_PATH=%CMAKE_PREFIX_PATH%;%TFELHOME%\Library\share\tfel\cmake
+echo "TFELTESTS_DIR=%TFELTests_DIR%
+
 set FC=flang-new
 
 rem Normalize SP_DIR to forward slashes for CMake
@@ -32,8 +33,6 @@ cmake -B "%BUILD_DIR%" -G "Ninja" ^
     -Denable-portable-build=ON ^
     -Denable-julia-bindings=OFF ^
     -Denable-website=OFF ^
-    -Denable-broken-boost-python-module-visibility-handling=ON ^
-    -DPYTHONLIBS_VERSION_STRING="%PY_VER%" ^
     -DPython_ADDITIONAL_VERSIONS="%python_version%" ^
     -DPYTHON_EXECUTABLE:FILEPATH="%PREFIX%/python.exe" ^
     -DPYTHON_LIBRARY:FILEPATH=%PREFIX%\libs\python%PY_VER_CLEAN%.lib ^
@@ -44,8 +43,7 @@ cmake -B "%BUILD_DIR%" -G "Ninja" ^
     -DPython_FIND_STRATEGY=LOCATION ^
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON ^
     -DMGIS_APPEND_SUFFIX=OFF ^
-    -DMGIS_PYTHON_MODULES_INSTALL_DIRECTORY:PATH="%SP_DIR_FWD%/mgis" ^
-    -DSITE_PACKAGES_DIR:PATH="%SP_DIR_FWD%"
+    -DMGIS_PYTHON_MODULES_INSTALL_DIRECTORY:PATH="%SP_DIR_FWD%/mgis"
 
 if errorlevel 1 (
     echo CMake configuration failed!
