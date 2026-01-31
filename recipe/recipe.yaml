@@ -31,7 +31,7 @@ requirements:
         - python
         - cross-python_${{ target_platform }}
         - numpy
-        - mfront >=5.1.0
+        - mfront >=5.1
         - pybind11
     - if: win
       then:
@@ -46,8 +46,7 @@ requirements:
     - python
     - numpy
     - pybind11
-    - pybind11-abi
-    - mfront >=5.1.0
+    - mfront >=5.1
   run:
     - python
   run_exports:
