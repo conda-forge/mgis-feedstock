@@ -33,8 +33,6 @@ cmake -B "%BUILD_DIR%" -G "Ninja" ^
     -Denable-portable-build=ON ^
     -Denable-julia-bindings=OFF ^
     -Denable-website=OFF ^
-    -Denable-broken-boost-python-module-visibility-handling=ON ^
-    -DPYTHONLIBS_VERSION_STRING="%PY_VER%" ^
     -DPython_ADDITIONAL_VERSIONS="%python_version%" ^
     -DPYTHON_EXECUTABLE:FILEPATH="%PREFIX%/python.exe" ^
     -DPYTHON_LIBRARY:FILEPATH=%PREFIX%\libs\python%PY_VER_CLEAN%.lib ^
@@ -45,8 +43,7 @@ cmake -B "%BUILD_DIR%" -G "Ninja" ^
     -DPython_FIND_STRATEGY=LOCATION ^
     -DUSE_EXTERNAL_COMPILER_FLAGS=ON ^
     -DMGIS_APPEND_SUFFIX=OFF ^
-    -DMGIS_PYTHON_MODULES_INSTALL_DIRECTORY:PATH="%SP_DIR_FWD%/mgis" ^
-    -DSITE_PACKAGES_DIR:PATH="%SP_DIR_FWD%"
+    -DMGIS_PYTHON_MODULES_INSTALL_DIRECTORY:PATH="%SP_DIR_FWD%/mgis"
 
 if errorlevel 1 (
     echo CMake configuration failed!
