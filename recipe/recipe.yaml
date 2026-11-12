@@ -15,7 +15,7 @@ source:
       - patches/site_packages_override_on_windows.patch
 
 build:
-  number: 0
+  number: 1
   prefix_detection:
     ignore_binary_files: true
 
@@ -33,6 +33,7 @@ requirements:
         - numpy
         - mfront
         - pybind11
+        - pybind11-abi
     - if: win
       then:
         - ninja
@@ -46,6 +47,9 @@ requirements:
     - python
     - numpy
     - pybind11
+    # Keeps pybind11 on the ABI mfront was built with; without it the newest pybind11 wins and
+    # the solver falls back to an older mfront.
+    - pybind11-abi
     - mfront
   run:
     - python
